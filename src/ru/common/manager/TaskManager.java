@@ -1,3 +1,10 @@
+package ru.common.manager;
+
+import ru.common.model.Epic;
+import ru.common.enums.Status;
+import ru.common.model.Subtask;
+import ru.common.model.Task;
+
 import java.util.HashMap;
 
 public class TaskManager {
@@ -13,36 +20,41 @@ public class TaskManager {
         this.id = 1;
     }
 
-    public void generateId() {
+    private void incrementId() {
         id++;
     }
 
-    public void createTask(Task task) {
+    public int createTask(Task task) {
         task.setId(id);
         tasks.put(id, task);
-        generateId();
+        incrementId();
+
+        return task.getId();
     }
 
-    public void createSubtask(Subtask subtask) {
-        if (!epics.containsValue(getEpicById(subtask.getEpicId()))) {
+    public int createSubtask(Subtask subtask) {
+        if (!epics.containsKey(subtask.getEpicId())) {
             System.out.println("Вы передали несуществующий эпик!");
             System.out.println("Создание невозможно!");
-            return;
+            return 0;
         }
 
         subtask.setId(id);
         subtasks.put(id, subtask);
         getEpicById(subtask.getEpicId()).getSubtaskIds().add(getId());
         checkTheSubtasksInEpic(subtask.getEpicId());
-        generateId();
-        System.out.println("Подзадача успешно создана!");
+        incrementId();
+
+        return subtask.getId();
     }
 
-    public void createEpic(Epic epic) {
+    public int createEpic(Epic epic) {
         epic.setId(id);
         epics.put(id, epic);
         checkTheSubtasksInEpic(id);
-        generateId();
+        incrementId();
+
+        return epic.getId();
     }
 
     public void updateTask(int taskId, Task newTask) {

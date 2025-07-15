@@ -1,3 +1,7 @@
+package ru.common.model;
+
+import ru.common.enums.Status;
+
 public class Subtask extends Task {
     private final int epicId;
 
@@ -12,7 +16,7 @@ public class Subtask extends Task {
 
     @Override
     public String toString() {
-        return "Subtask{" +
+        return "ru.common.model.Subtask{" +
                 "id=" + getId() +
                 ", title='" + getTitle() + '\'' +
                 ", description='" + getDescription() + '\'' +

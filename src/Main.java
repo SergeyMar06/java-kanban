@@ -1,3 +1,9 @@
+import ru.common.manager.TaskManager;
+import ru.common.model.Epic;
+import ru.common.enums.Status;
+import ru.common.model.Subtask;
+import ru.common.model.Task;
+
 import java.util.Scanner;
 
 public class Main {
@@ -35,8 +41,7 @@ public class Main {
                         String description = scanner.nextLine();
                         System.out.println("Введите статус задачи (NEW, IN_PROGRESS, DONE)");
                         String status = scanner.nextLine();
-                        taskManager.createTask(new Task(title, description, Status.valueOf(status)));
-                        System.out.println("Задача успешно создана!");
+                        System.out.println("Задача c id = " + taskManager.createTask(new Task(title, description, Status.valueOf(status))) + " успешно создана!");
                     } else if (numberTask == 5) {
                         System.out.println("Введите id задачи: ");
                         int taskId = scanner.nextInt();
@@ -85,7 +90,15 @@ public class Main {
                             String status = scanner.nextLine();
                             System.out.println("Введите id эпика данной подзадачи: ");
                             int epicId = scanner.nextInt();
-                            taskManager.createSubtask(new Subtask(title, description, Status.valueOf(status), epicId));
+                            int subtaskId = taskManager.createSubtask(new Subtask(title, description, Status.valueOf(status), epicId));
+                            /* сохраняем id подзадачи в отдельную переменную, так как иначе,
+                             если строчку "taskManager.createSubtask(new Subtask(title, description, Status.valueOf(status), epicId))"
+                             добавить и в условие, и в вывод (sout), то id увеличится на 2
+                             и его нумерация у дальнейших объектов собьётся
+                             */
+                            if (subtaskId != 0) {
+                                System.out.println("Подзадача с id = " + subtaskId + " успешно создана!");
+                            }
                         }
                     } else if (numberSubtask == 5) {
                         System.out.println("Введите id подзадачи: ");
@@ -97,10 +110,7 @@ public class Main {
                         String description = scanner.nextLine();
                         System.out.println("Введите новый статус подзадачи (NEW, IN_PROGRESS, DONE)");
                         String status = scanner.nextLine();
-//                        System.out.println("Введите новое id эпика данной подзадачи: ");
-//                        int epicId = scanner.nextInt();
                         taskManager.updateSubtask(subtaskId, new Subtask(title, description, Status.valueOf(status), taskManager.getSubtaskById(subtaskId).getEpicId()));
-//                        taskManager.getEpicById(epicId).getSubtaskIds().add(subtaskId);
                         System.out.println("Подзадача успешно обновлена!");
                     } else if (numberSubtask == 6) {
                         System.out.println("Введите id подзадачи: ");
@@ -132,8 +142,7 @@ public class Main {
                         String title = scanner.nextLine();
                         System.out.println("Введите описание эпика: ");
                         String description = scanner.nextLine();
-                        taskManager.createEpic(new Epic(title, description));
-                        System.out.println("Эпик успешно создан!");
+                        System.out.println("Эпик c id = " + taskManager.createEpic(new Epic(title, description)) + " успешно создан!");
                     } else if (numberEpic == 5) {
                         System.out.println("Введите id эпика: ");
                         int epicId = scanner.nextInt();
@@ -159,7 +168,7 @@ public class Main {
         }
     }
 
-    public static void printMenuTask() {
+    public static void printMenuTask () {
         System.out.println("Выберите тип задачи: ");
         System.out.println("1. Задача (task)");
         System.out.println("2. Подзадача (subtask)");
@@ -167,7 +176,7 @@ public class Main {
         System.out.println("4. Выход");
     }
 
-    public static void printMenu() {
+    public static void printMenu () {
         System.out.println("Выберите действие:");
         System.out.println("1. Вывести список всех задач");
         System.out.println("2. Удалить все задачи");

@@ -1,3 +1,7 @@
+package ru.common.model;
+
+import ru.common.enums.Status;
+
 import java.util.ArrayList;
 
 public class Epic extends Task {
@@ -18,7 +22,7 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return "Epic{" +
+        return "ru.common.model.Epic{" +
                 "id=" + getId() +
                 ", title='" + getTitle() + '\'' +
                 ", description='" + getDescription() + '\'' +

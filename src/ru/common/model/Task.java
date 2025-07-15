@@ -1,3 +1,7 @@
+package ru.common.model;
+
+import ru.common.enums.Status;
+
 import java.util.Objects;
 
 public class Task {
@@ -59,7 +63,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "ru.common.model.Task{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
