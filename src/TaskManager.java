@@ -24,11 +24,18 @@ public class TaskManager {
     }
 
     public void createSubtask(Subtask subtask) {
+        if (!epics.containsValue(getEpicById(subtask.getEpicId()))) {
+            System.out.println("Вы передали несуществующий эпик!");
+            System.out.println("Создание невозможно!");
+            return;
+        }
+
         subtask.setId(id);
         subtasks.put(id, subtask);
         getEpicById(subtask.getEpicId()).getSubtaskIds().add(getId());
         checkTheSubtasksInEpic(subtask.getEpicId());
         generateId();
+        System.out.println("Подзадача успешно создана!");
     }
 
     public void createEpic(Epic epic) {
@@ -48,7 +55,11 @@ public class TaskManager {
     }
 
     public void updateEpic(int epicId, Epic newEpic) {
-        epics.put(epicId, newEpic);
+        Epic epic = getEpicById(epicId);
+        if (epic != null) {
+            epic.setTitle(newEpic.getTitle());
+            epic.setDescription(newEpic.getDescription());
+        }
     }
 
     public void removeTask(int id) {
@@ -56,10 +67,16 @@ public class TaskManager {
     }
 
     public void removeSubtask(int id) {
+        getEpicById(getSubtaskById(id).getEpicId()).getSubtaskIds().remove((Integer) id);
+        checkTheSubtasksInEpic(getSubtaskById(id).getEpicId());
         subtasks.remove(id);
     }
 
     public void removeEpic(int id) {
+        for (Integer el : getEpicById(id).getSubtaskIds()) {
+            subtasks.remove(el);
+        }
+
         epics.remove(id);
     }
 

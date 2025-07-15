@@ -86,7 +86,6 @@ public class Main {
                             System.out.println("Введите id эпика данной подзадачи: ");
                             int epicId = scanner.nextInt();
                             taskManager.createSubtask(new Subtask(title, description, Status.valueOf(status), epicId));
-                            System.out.println("Подзадача успешно создана!");
                         }
                     } else if (numberSubtask == 5) {
                         System.out.println("Введите id подзадачи: ");
@@ -122,6 +121,7 @@ public class Main {
                         System.out.println(taskManager.getEpics());
                     } else if (numberEpic == 2) {
                         taskManager.getEpics().clear();
+                        taskManager.getSubtasks().clear();
                         System.out.println("Эпики успешно удалены.");
                     } else if (numberEpic == 3) {
                         System.out.println("Введите id эпика: ");
