@@ -28,7 +28,7 @@ public class Main {
                     if (numberTask == 1) {
                         System.out.println(taskManager.getTasks());
                     } else if (numberTask == 2) {
-                        taskManager.getTasks().clear();
+                        taskManager.removeAllTasks();
                         System.out.println("Задачи успешно удалены.");
                     } else if (numberTask == 3) {
                         System.out.println("Введите id задачи: ");
@@ -72,7 +72,7 @@ public class Main {
                     if (numberSubtask == 1) {
                         System.out.println(taskManager.getSubtasks());
                     } else if (numberSubtask == 2) {
-                        taskManager.getSubtasks().clear();
+                        taskManager.removeAllSubtasks();
                         System.out.println("Подзадачи успешно удалены.");
                     } else if (numberSubtask == 3) {
                         System.out.println("Введите id подзадачи: ");
@@ -123,6 +123,7 @@ public class Main {
             } else if (command == 3) {
                 while (true) {
                     printMenu();
+                    System.out.println("8. Дополнительно: Вывести список подзадач эпика");
 
                     int numberEpic = scanner.nextInt();
                     scanner.nextLine();
@@ -130,8 +131,7 @@ public class Main {
                     if (numberEpic == 1) {
                         System.out.println(taskManager.getEpics());
                     } else if (numberEpic == 2) {
-                        taskManager.getEpics().clear();
-                        taskManager.getSubtasks().clear();
+                        taskManager.removeAllEpics();
                         System.out.println("Эпики успешно удалены.");
                     } else if (numberEpic == 3) {
                         System.out.println("Введите id эпика: ");
@@ -159,6 +159,17 @@ public class Main {
                         taskManager.removeEpic(epicId);
                     } else if (numberEpic == 7) {
                         break;
+                    } else if (numberEpic == 8) {
+                        System.out.println("Введите id эпика: ");
+                        int epicId = scanner.nextInt();
+                        scanner.nextLine();
+                        if (taskManager.getEpics().contains(taskManager.getEpicById(epicId))) {
+                            for (Integer subtaskId : taskManager.getEpicById(epicId).getSubtaskIds()) {
+                                System.out.println(taskManager.getSubtaskById(subtaskId));
+                            }
+                        } else {
+                            System.out.println("Эпика с таким id не существует");
+                        }
                     }
                 }
             } else if (command == 4) {
@@ -168,7 +179,7 @@ public class Main {
         }
     }
 
-    public static void printMenuTask () {
+    public static void printMenuTask() {
         System.out.println("Выберите тип задачи: ");
         System.out.println("1. Задача (task)");
         System.out.println("2. Подзадача (subtask)");
@@ -176,7 +187,7 @@ public class Main {
         System.out.println("4. Выход");
     }
 
-    public static void printMenu () {
+    public static void printMenu() {
         System.out.println("Выберите действие:");
         System.out.println("1. Вывести список всех задач");
         System.out.println("2. Удалить все задачи");

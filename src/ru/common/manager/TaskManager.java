@@ -5,6 +5,7 @@ import ru.common.enums.Status;
 import ru.common.model.Subtask;
 import ru.common.model.Task;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TaskManager {
@@ -128,19 +129,37 @@ public class TaskManager {
         }
     }
 
-    public HashMap<Integer, Task> getTasks() {
-        return tasks;
+    public ArrayList<Task> getTasks() {
+        return new ArrayList<>(tasks.values());
     }
 
-    public HashMap<Integer, Subtask> getSubtasks() {
-        return subtasks;
+    public ArrayList<Subtask> getSubtasks() {
+        return new ArrayList<>(subtasks.values());
     }
 
-    public HashMap<Integer, Epic> getEpics() {
-        return epics;
+    public ArrayList<Epic> getEpics() {
+        return new ArrayList<>(epics.values());
     }
 
     public int getId() {
         return id;
+    }
+
+    public void removeAllTasks() {
+        tasks.clear();
+    }
+
+    public void removeAllSubtasks() {
+        subtasks.clear();
+
+        for (Epic epic : getEpics()) {
+            epic.setStatus(Status.NEW);
+            epic.getSubtaskIds().clear();
+        }
+    }
+
+    public void removeAllEpics() {
+        epics.clear();
+        subtasks.clear();
     }
 }
