@@ -1,4 +1,5 @@
-import ru.common.manager.TaskManager;
+import ru.common.interfaces.TaskManager;
+import ru.common.manager.Managers;
 import ru.common.model.Epic;
 import ru.common.enums.Status;
 import ru.common.model.Subtask;
@@ -10,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        TaskManager taskManager = new TaskManager();
+        TaskManager taskManager = Managers.getDefault();
 
         while (true) {
             printMenuTask();
@@ -33,7 +34,7 @@ public class Main {
                     } else if (numberTask == 3) {
                         System.out.println("Введите id задачи: ");
                         int taskId = scanner.nextInt();
-                        System.out.println("Задача с id = " + taskId + " - " + taskManager.getTaskById(taskId));
+                        System.out.println("Задача с id = " + taskId + " - " + taskManager.getTaskByIdTheUpdateHistory(taskId));
                     } else if (numberTask == 4) {
                         System.out.println("Введите название задачи: ");
                         String title = scanner.nextLine();
@@ -77,7 +78,7 @@ public class Main {
                     } else if (numberSubtask == 3) {
                         System.out.println("Введите id подзадачи: ");
                         int subtaskId = scanner.nextInt();
-                        System.out.println("Подзадача с id = " + subtaskId + " - " + taskManager.getSubtaskById(subtaskId));
+                        System.out.println("Подзадача с id = " + subtaskId + " - " + taskManager.getSubtaskByIdTheUpdateHistory(subtaskId));
                     } else if (numberSubtask == 4) {
                         if (taskManager.getEpics().isEmpty()) {
                             System.out.println("Вы не можете создать подзадачи, пока не будет создан хотя бы один эпик!");
@@ -136,7 +137,7 @@ public class Main {
                     } else if (numberEpic == 3) {
                         System.out.println("Введите id эпика: ");
                         int epicId = scanner.nextInt();
-                        System.out.println("Эпик с id = " + epicId + " - " + taskManager.getEpicById(epicId));
+                        System.out.println("Эпик с id = " + epicId + " - " + taskManager.getEpicByIdTheUpdateHistory(epicId));
                     } else if (numberEpic == 4) {
                         System.out.println("Введите название эпика: ");
                         String title = scanner.nextLine();
@@ -173,6 +174,8 @@ public class Main {
                     }
                 }
             } else if (command == 4) {
+                System.out.println(taskManager.getHistoryManager().getHistory());
+            } else if (command == 5) {
                 System.out.println("Программа успешно завершена! Хорошего дня!");
                 break;
             }
@@ -184,7 +187,8 @@ public class Main {
         System.out.println("1. Задача (task)");
         System.out.println("2. Подзадача (subtask)");
         System.out.println("3. Эпик (epic)");
-        System.out.println("4. Выход");
+        System.out.println("4. Просмотреть историю задач");
+        System.out.println("5. Выход");
     }
 
     public static void printMenu() {
