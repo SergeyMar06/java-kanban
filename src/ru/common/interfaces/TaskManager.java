@@ -27,15 +27,9 @@ public interface TaskManager {
 
     Task getTaskById(int id);
 
-    Task getTaskByIdTheUpdateHistory(int id);
-
     Subtask getSubtaskById(int id);
 
-    Subtask getSubtaskByIdTheUpdateHistory(int id);
-
     Epic getEpicById(int id);
-
-    Epic getEpicByIdTheUpdateHistory(int id);
 
     void checkTheSubtasksInEpic(int epicId);
 

@@ -7,6 +7,8 @@ import ru.common.interfaces.HistoryManager;
 import ru.common.interfaces.TaskManager;
 import ru.common.model.Task;
 
+import java.util.ArrayList;
+
 
 class ManagersTest {
     @Test
@@ -27,8 +29,9 @@ class ManagersTest {
         Task task = new Task("task1", "description1", Status.NEW);
         task.setId(1);
 
-        historyManager.getHistory().add(task);
+        ArrayList<Task> history = historyManager.getHistory();
+        history.add(task);
 
-        Assertions.assertTrue(historyManager.getHistory().contains(task));
+        Assertions.assertTrue(history.contains(task));
     }
 }

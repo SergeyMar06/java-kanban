@@ -48,7 +48,7 @@ public class InMemoryTaskManager implements TaskManager {
 
         subtask.setId(id);
         subtasks.put(id, subtask);
-        getEpicById(subtask.getEpicId()).getSubtaskIds().add(getId());
+        epics.get(subtask.getEpicId()).getSubtaskIds().add(getId());
         checkTheSubtasksInEpic(subtask.getEpicId());
         incrementId();
 
@@ -61,6 +61,7 @@ public class InMemoryTaskManager implements TaskManager {
         epics.put(id, epic);
         checkTheSubtasksInEpic(id);
         incrementId();
+
 
         return epic.getId();
     }
@@ -111,34 +112,19 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getTaskById(int id) {
-        return tasks.get(id);
-    }
-
-    @Override
-    public Subtask getSubtaskById(int id) {
-        return subtasks.get(id);
-    }
-
-    @Override
-    public Epic getEpicById(int id) {
-        return epics.get(id);
-    }
-
-    @Override
-    public Task getTaskByIdTheUpdateHistory(int id) {
         historyManager.add(tasks.get(id));
         return tasks.get(id);
     }
 
     @Override
-    public Subtask getSubtaskByIdTheUpdateHistory(int id) {
+    public Subtask getSubtaskById(int id) {
         historyManager.add(subtasks.get(id));
         return subtasks.get(id);
     }
 
     @Override
-    public Epic getEpicByIdTheUpdateHistory(int id) {
-        historyManager.add(new Epic(epics.get(id)));
+    public Epic getEpicById(int id) {
+        historyManager.add(epics.get(id));
         return epics.get(id);
     }
 
@@ -147,23 +133,23 @@ public class InMemoryTaskManager implements TaskManager {
         int countDONE = 0;
         int countNEW = 0;
 
-        for (Integer subtaskId : getEpicById(epicId).getSubtaskIds()) {
-            if (Status.DONE.equals(getSubtaskById(subtaskId).getStatus())) {
+        for (Integer subtaskId : epics.get(epicId).getSubtaskIds()) {
+            if (Status.DONE.equals(subtasks.get(subtaskId).getStatus())) {
                 countDONE++;
             }
-            if (Status.NEW.equals(getSubtaskById(subtaskId).getStatus())) {
+            if (Status.NEW.equals(subtasks.get(subtaskId).getStatus())) {
                 countNEW++;
             }
         }
 
-        if (countDONE == getEpicById(epicId).getSubtaskIds().size()
-                & !getEpicById(epicId).getSubtaskIds().isEmpty()) {
-            getEpicById(epicId).setStatus(Status.DONE);
-        } else if (countNEW == getEpicById(epicId).getSubtaskIds().size()
-                | getEpicById(epicId).getSubtaskIds().isEmpty()) {
-            getEpicById(epicId).setStatus(Status.NEW);
+        if (countDONE == epics.get(epicId).getSubtaskIds().size()
+                & !epics.get(epicId).getSubtaskIds().isEmpty()) {
+            epics.get(epicId).setStatus(Status.DONE);
+        } else if (countNEW == epics.get(epicId).getSubtaskIds().size()
+                | epics.get(epicId).getSubtaskIds().isEmpty()) {
+            epics.get(epicId).setStatus(Status.NEW);
         } else {
-            getEpicById(epicId).setStatus(Status.IN_PROGRESS);
+            epics.get(epicId).setStatus(Status.IN_PROGRESS);
         }
     }
 

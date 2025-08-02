@@ -34,7 +34,7 @@ public class Main {
                     } else if (numberTask == 3) {
                         System.out.println("Введите id задачи: ");
                         int taskId = scanner.nextInt();
-                        System.out.println("Задача с id = " + taskId + " - " + taskManager.getTaskByIdTheUpdateHistory(taskId));
+                        System.out.println("Задача с id = " + taskId + " - " + taskManager.getTaskById(taskId));
                     } else if (numberTask == 4) {
                         System.out.println("Введите название задачи: ");
                         String title = scanner.nextLine();
@@ -78,7 +78,7 @@ public class Main {
                     } else if (numberSubtask == 3) {
                         System.out.println("Введите id подзадачи: ");
                         int subtaskId = scanner.nextInt();
-                        System.out.println("Подзадача с id = " + subtaskId + " - " + taskManager.getSubtaskByIdTheUpdateHistory(subtaskId));
+                        System.out.println("Подзадача с id = " + subtaskId + " - " + taskManager.getSubtaskById(subtaskId));
                     } else if (numberSubtask == 4) {
                         if (taskManager.getEpics().isEmpty()) {
                             System.out.println("Вы не можете создать подзадачи, пока не будет создан хотя бы один эпик!");
@@ -137,7 +137,7 @@ public class Main {
                     } else if (numberEpic == 3) {
                         System.out.println("Введите id эпика: ");
                         int epicId = scanner.nextInt();
-                        System.out.println("Эпик с id = " + epicId + " - " + taskManager.getEpicByIdTheUpdateHistory(epicId));
+                        System.out.println("Эпик с id = " + epicId + " - " + taskManager.getEpicById(epicId));
                     } else if (numberEpic == 4) {
                         System.out.println("Введите название эпика: ");
                         String title = scanner.nextLine();
