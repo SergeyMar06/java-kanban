@@ -12,8 +12,6 @@ import ru.common.model.Task;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
     private String url;
