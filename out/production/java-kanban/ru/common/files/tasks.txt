@@ -1,0 +1,5 @@
+1,TASK,task1,NEW,desc1
+5,TASK,task2,DONE,desc2
+6,TASK,ефыл3,NEW,вуыс3
+3,EPIC,epic1,IN_PROGRESS,desc1
+4,SUBTASK,subtask1,IN_PROGRESS,desc1,3

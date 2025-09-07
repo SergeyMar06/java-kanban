@@ -5,6 +5,7 @@ import ru.common.model.Subtask;
 import ru.common.model.Task;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface TaskManager {
     int createTask(Task task);
@@ -33,11 +34,11 @@ public interface TaskManager {
 
     void checkTheSubtasksInEpic(int epicId);
 
-    ArrayList<Task> getTasks();
+    HashMap<Integer, Task> getTasks();
 
-    ArrayList<Subtask> getSubtasks();
+    HashMap<Integer, Subtask> getSubtasks();
 
-    ArrayList<Epic> getEpics();
+    HashMap<Integer, Epic> getEpics();
 
     int getId();
 

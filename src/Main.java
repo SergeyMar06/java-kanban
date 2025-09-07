@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        TaskManager taskManager = Managers.getDefault();
+        TaskManager taskManager = Managers.loadFromFile("src/ru/common/files/tasks.txt");
 
         while (true) {
             printMenuTask();
@@ -164,7 +164,7 @@ public class Main {
                         System.out.println("Введите id эпика: ");
                         int epicId = scanner.nextInt();
                         scanner.nextLine();
-                        if (taskManager.getEpics().contains(taskManager.getEpicById(epicId))) {
+                        if (taskManager.getEpics().containsValue(taskManager.getEpicById(epicId))) {
                             for (Integer subtaskId : taskManager.getEpicById(epicId).getSubtaskIds()) {
                                 System.out.println(taskManager.getSubtaskById(subtaskId));
                             }

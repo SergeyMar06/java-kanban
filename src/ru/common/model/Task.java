@@ -1,6 +1,7 @@
 package ru.common.model;
 
 import ru.common.enums.Status;
+import ru.common.enums.TaskType;
 
 import java.util.Objects;
 
@@ -9,6 +10,7 @@ public class Task {
     private String title;
     private String description;
     private Status status;
+    public static final TaskType TASK_TYPE = TaskType.TASK;
 
     public Task(String title, String description, Status status) {
         this.title = title;
@@ -53,6 +55,10 @@ public class Task {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public TaskType getTaskType() {
+        return TASK_TYPE;
     }
 
     @Override
