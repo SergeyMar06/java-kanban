@@ -4,7 +4,6 @@ import ru.common.enums.Status;
 import ru.common.enums.TaskType;
 import ru.common.errors.ManagerSaveException;
 import ru.common.errors.TaskTypeException;
-import ru.common.interfaces.TaskManager;
 import ru.common.model.Epic;
 import ru.common.model.Subtask;
 import ru.common.model.Task;
@@ -27,13 +26,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 fileWriter.newLine();
             }
 
-            for (Subtask subtask : getSubtasks().values()) {
-                fileWriter.write(toString(subtask));
+            for (Epic epic : getEpics().values()) {
+                fileWriter.write(toString(epic));
                 fileWriter.newLine();
             }
 
-            for (Epic epic : getEpics().values()) {
-                fileWriter.write(toString(epic));
+            for (Subtask subtask : getSubtasks().values()) {
+                fileWriter.write(toString(subtask));
                 fileWriter.newLine();
             }
         } catch (IOException e) {

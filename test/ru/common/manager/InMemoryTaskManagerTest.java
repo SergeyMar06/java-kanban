@@ -29,7 +29,7 @@ class InMemoryTaskManagerTest {
         Epic saveEpic = taskManager.getEpicById(epicId);
 
         Assertions.assertNotNull(saveEpic);
-        Assertions.assertTrue(taskManager.getEpics().contains(saveEpic));
+        Assertions.assertTrue(taskManager.getEpics().containsValue(saveEpic));
 
         // для subtask
         Subtask subtask = new Subtask("subtask1", "description1", Status.NEW, epicId);
@@ -38,7 +38,7 @@ class InMemoryTaskManagerTest {
         Subtask saveSubtask = taskManager.getSubtaskById(subtaskId);
 
         Assertions.assertNotNull(saveSubtask);
-        Assertions.assertTrue(taskManager.getSubtasks().contains(saveSubtask));
+        Assertions.assertTrue(taskManager.getSubtasks().containsValue(saveSubtask));
 
         // для task
         Task task = new Task("task1", "description1", Status.NEW);
@@ -47,7 +47,7 @@ class InMemoryTaskManagerTest {
         Task saveTask = taskManager.getTaskById(taskId);
 
         Assertions.assertNotNull(saveTask);
-        Assertions.assertTrue(taskManager.getTasks().contains(saveTask));
+        Assertions.assertTrue(taskManager.getTasks().containsValue(saveTask));
     }
 
     @Test
@@ -129,9 +129,9 @@ class InMemoryTaskManagerTest {
         Subtask subtask = new Subtask("subtask1", "description3", Status.NEW, epic.getId());
         taskManager.createSubtask(subtask);
 
-        Assertions.assertTrue(taskManager.getTasks().contains(task));
-        Assertions.assertTrue(taskManager.getSubtasks().contains(subtask));
-        Assertions.assertTrue(taskManager.getEpics().contains(epic));
+        Assertions.assertTrue(taskManager.getTasks().containsValue(task));
+        Assertions.assertTrue(taskManager.getSubtasks().containsValue(subtask));
+        Assertions.assertTrue(taskManager.getEpics().containsValue(epic));
 
         taskManager.removeTask(task.getId());
         taskManager.removeSubtask(subtask.getId());
