@@ -3,6 +3,8 @@ package ru.common.model;
 import ru.common.enums.Status;
 import ru.common.enums.TaskType;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -11,11 +13,15 @@ public class Task {
     private String description;
     private Status status;
     public static final TaskType TASK_TYPE = TaskType.TASK;
+    private Duration duration;
+    private LocalDateTime startTime;
 
-    public Task(String title, String description, Status status) {
+    public Task(String title, String description, Status status, Duration duration, LocalDateTime startTime) {
         this.title = title;
         this.description = description;
         this.status = status;
+        this.duration = duration;
+        this.startTime = startTime;
     }
 
     public Task(Task task) {
@@ -59,6 +65,29 @@ public class Task {
 
     public TaskType getTaskType() {
         return TASK_TYPE;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        if (startTime != null && duration != null) {
+            return startTime.plus(duration);
+        }
+        return null;
     }
 
     @Override

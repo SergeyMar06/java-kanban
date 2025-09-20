@@ -46,6 +46,10 @@ public class Managers {
                     manager.getTasks().put(task.getId(), task);
                 }
 
+                if (task.getStartTime() != null) {
+                    manager.getPrioritizedTasks().add(task);
+                }
+
                 if (task.getId() > maxId) {
                     maxId = task.getId();
                 }

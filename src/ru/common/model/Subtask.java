@@ -3,12 +3,15 @@ package ru.common.model;
 import ru.common.enums.Status;
 import ru.common.enums.TaskType;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class Subtask extends Task {
     private final int epicId;
     public static final TaskType TASK_TYPE = TaskType.SUBTASK;
 
-    public Subtask(String title, String description, Status status, int epicId) {
-        super(title, description, status);
+    public Subtask(String title, String description, Status status, int epicId, Duration duration, LocalDateTime startTime) {
+        super(title, description, status, duration, startTime);
         this.epicId = epicId;
     }
 

@@ -6,6 +6,7 @@ import ru.common.model.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeSet;
 
 public interface TaskManager {
     int createTask(Task task);
@@ -51,4 +52,12 @@ public interface TaskManager {
     ArrayList<Subtask> getSubtaskByEpicId(int epicId);
 
     public HistoryManager getHistoryManager();
+
+    void setTasks(HashMap<Integer, Task> tasks);
+
+    void setSubtasks(HashMap<Integer, Subtask> subtasks);
+
+    void setEpics(HashMap<Integer, Epic> epics);
+
+    public TreeSet<Task> getPrioritizedTasks();
 }

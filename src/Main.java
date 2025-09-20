@@ -5,6 +5,9 @@ import ru.common.enums.Status;
 import ru.common.model.Subtask;
 import ru.common.model.Task;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Main {
@@ -36,25 +39,55 @@ public class Main {
                         int taskId = scanner.nextInt();
                         System.out.println("Задача с id = " + taskId + " - " + taskManager.getTaskById(taskId));
                     } else if (numberTask == 4) {
-                        System.out.println("Введите название задачи: ");
-                        String title = scanner.nextLine();
-                        System.out.println("Введите описание задачи: ");
-                        String description = scanner.nextLine();
-                        System.out.println("Введите статус задачи (NEW, IN_PROGRESS, DONE)");
-                        String status = scanner.nextLine();
-                        System.out.println("Задача c id = " + taskManager.createTask(new Task(title, description, Status.valueOf(status))) + " успешно создана!");
+                        try {
+                            System.out.println("Введите название задачи: ");
+                            String title = scanner.nextLine();
+                            System.out.println("Введите описание задачи: ");
+                            String description = scanner.nextLine();
+                            System.out.println("Введите статус задачи (NEW, IN_PROGRESS, DONE)");
+                            String status = scanner.nextLine();
+                            System.out.println("Ведите дату и время в формате: {день.месяц.год часы:минуты}");
+                            String dateTime = scanner.nextLine();
+                            LocalDateTime startTime = null;
+                            if (!dateTime.isEmpty()) {
+                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+                                startTime = LocalDateTime.parse(dateTime, formatter);
+                            }
+                            System.out.println("Введите продолжительность задачи в минутах: ");
+                            int minutes = scanner.nextInt();
+                            scanner.nextLine();
+                            Duration duration = Duration.ofMinutes(minutes);
+                            System.out.println("Задача c id = " + taskManager.createTask(new Task(title, description, Status.valueOf(status), duration, startTime)) + " успешно создана!");
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Ошибка: " + e.getMessage());
+                        }
                     } else if (numberTask == 5) {
-                        System.out.println("Введите id задачи: ");
-                        int taskId = scanner.nextInt();
-                        scanner.nextLine();
-                        System.out.println("Введите новое название задачи: ");
-                        String title = scanner.nextLine();
-                        System.out.println("Введите новое описание задачи: ");
-                        String description = scanner.nextLine();
-                        System.out.println("Введите новый статус задачи (NEW, IN_PROGRESS, DONE)");
-                        String status = scanner.nextLine();
-                        taskManager.updateTask(taskId, new Task(title, description, Status.valueOf(status)));
-                        System.out.println("Задача успешно обновлена!");
+                        try {
+                            System.out.println("Введите id задачи: ");
+                            int taskId = scanner.nextInt();
+                            scanner.nextLine();
+                            System.out.println("Введите новое название задачи: ");
+                            String title = scanner.nextLine();
+                            System.out.println("Введите новое описание задачи: ");
+                            String description = scanner.nextLine();
+                            System.out.println("Введите новый статус задачи (NEW, IN_PROGRESS, DONE)");
+                            String status = scanner.nextLine();
+                            System.out.println("Ведите дату и время в формате: {день.месяц.год часы:минуты}");
+                            String dateTime = scanner.nextLine();
+                            LocalDateTime startTime = null;
+                            if (!dateTime.isEmpty()) {
+                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+                                startTime = LocalDateTime.parse(dateTime, formatter);
+                            }
+                            System.out.println("Введите продолжительность задачи в минутах: ");
+                            int minutes = scanner.nextInt();
+                            scanner.nextLine();
+                            Duration duration = Duration.ofMinutes(minutes);
+                            taskManager.updateTask(taskId, new Task(title, description, Status.valueOf(status), duration, startTime));
+                            System.out.println("Задача успешно обновлена!");
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Ошибка: " + e.getMessage());
+                        }
                     } else if (numberTask == 6) {
                         System.out.println("Введите id задачи: ");
                         int taskId = scanner.nextInt();
@@ -80,39 +113,70 @@ public class Main {
                         int subtaskId = scanner.nextInt();
                         System.out.println("Подзадача с id = " + subtaskId + " - " + taskManager.getSubtaskById(subtaskId));
                     } else if (numberSubtask == 4) {
-                        if (taskManager.getEpics().isEmpty()) {
-                            System.out.println("Вы не можете создать подзадачи, пока не будет создан хотя бы один эпик!");
-                        } else {
-                            System.out.println("Введите название подзадачи: ");
-                            String title = scanner.nextLine();
-                            System.out.println("Введите описание подзадачи: ");
-                            String description = scanner.nextLine();
-                            System.out.println("Введите статус подзадачи (NEW, IN_PROGRESS, DONE)");
-                            String status = scanner.nextLine();
-                            System.out.println("Введите id эпика данной подзадачи: ");
-                            int epicId = scanner.nextInt();
-                            int subtaskId = taskManager.createSubtask(new Subtask(title, description, Status.valueOf(status), epicId));
+                        try {
+                            if (taskManager.getEpics().isEmpty()) {
+                                System.out.println("Вы не можете создать подзадачи, пока не будет создан хотя бы один эпик!");
+                            } else {
+                                System.out.println("Введите название подзадачи: ");
+                                String title = scanner.nextLine();
+                                System.out.println("Введите описание подзадачи: ");
+                                String description = scanner.nextLine();
+                                System.out.println("Введите статус подзадачи (NEW, IN_PROGRESS, DONE)");
+                                String status = scanner.nextLine();
+                                System.out.println("Введите id эпика данной подзадачи: ");
+                                int epicId = scanner.nextInt();
+                                scanner.nextLine();
+                                System.out.println("Ведите дату и время в формате: {день.месяц.год часы:минуты}");
+                                String dateTime = scanner.nextLine();
+                                LocalDateTime startTime = null;
+                                if (!dateTime.isEmpty()) {
+                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+                                    startTime = LocalDateTime.parse(dateTime, formatter);
+                                }
+                                System.out.println("Введите продолжительность задачи в минутах: ");
+                                int minutes = scanner.nextInt();
+                                Duration duration = Duration.ofMinutes(minutes);
+                                int subtaskId = taskManager.createSubtask(new Subtask(title, description, Status.valueOf(status), epicId, duration, startTime));
                             /* сохраняем id подзадачи в отдельную переменную, так как иначе,
                              если строчку "taskManager.createSubtask(new Subtask(title, description, Status.valueOf(status), epicId))"
                              добавить и в условие, и в вывод (sout), то id увеличится на 2
                              и его нумерация у дальнейших объектов собьётся
                              */
-                            if (subtaskId != 0) {
-                                System.out.println("Подзадача с id = " + subtaskId + " успешно создана!");
+                                taskManager.getEpicById(epicId).updateTimes(taskManager.getSubtasks());
+                                if (subtaskId != 0) {
+                                    System.out.println("Подзадача с id = " + subtaskId + " успешно создана!");
+                                }
                             }
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Ошибка: " + e.getMessage());
                         }
                     } else if (numberSubtask == 5) {
-                        System.out.println("Введите id подзадачи: ");
-                        int subtaskId = scanner.nextInt();
-                        scanner.nextLine();
-                        System.out.println("Введите новое название подзадачи: ");
-                        String title = scanner.nextLine();
-                        System.out.println("Введите новое описание подзадачи: ");
-                        String description = scanner.nextLine();
-                        System.out.println("Введите новый статус подзадачи (NEW, IN_PROGRESS, DONE)");
-                        String status = scanner.nextLine();
-                        taskManager.updateSubtask(subtaskId, new Subtask(title, description, Status.valueOf(status), taskManager.getSubtaskById(subtaskId).getEpicId()));
-                        System.out.println("Подзадача успешно обновлена!");
+                        try {
+                            System.out.println("Введите id подзадачи: ");
+                            int subtaskId = scanner.nextInt();
+                            scanner.nextLine();
+                            System.out.println("Введите новое название подзадачи: ");
+                            String title = scanner.nextLine();
+                            System.out.println("Введите новое описание подзадачи: ");
+                            String description = scanner.nextLine();
+                            System.out.println("Введите новый статус подзадачи (NEW, IN_PROGRESS, DONE)");
+                            String status = scanner.nextLine();
+                            System.out.println("Ведите дату и время в формате: {день.месяц.год часы:минуты}");
+                            String dateTime = scanner.nextLine();
+                            LocalDateTime startTime = null;
+                            if (!dateTime.isEmpty()) {
+                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+                                startTime = LocalDateTime.parse(dateTime, formatter);
+                            }
+                            System.out.println("Введите продолжительность задачи в минутах: ");
+                            int minutes = scanner.nextInt();
+                            scanner.nextLine();
+                            Duration duration = Duration.ofMinutes(minutes);
+                            taskManager.updateSubtask(subtaskId, new Subtask(title, description, Status.valueOf(status), taskManager.getSubtaskById(subtaskId).getEpicId(), duration, startTime));
+                            System.out.println("Подзадача успешно обновлена!");
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Ошибка: " + e.getMessage());
+                        }
                     } else if (numberSubtask == 6) {
                         System.out.println("Введите id подзадачи: ");
                         int subtaskId = scanner.nextInt();
@@ -176,6 +240,8 @@ public class Main {
             } else if (command == 4) {
                 System.out.println(taskManager.getHistoryManager().getHistory());
             } else if (command == 5) {
+                System.out.println(taskManager.getPrioritizedTasks());
+            } else if (command == 6) {
                 System.out.println("Программа успешно завершена! Хорошего дня!");
                 break;
             }
@@ -188,7 +254,8 @@ public class Main {
         System.out.println("2. Подзадача (subtask)");
         System.out.println("3. Эпик (epic)");
         System.out.println("4. Просмотреть историю задач");
-        System.out.println("5. Выход");
+        System.out.println("5. Вывести список задач в порядке приоритетов");
+        System.out.println("6. Выход");
     }
 
     public static void printMenu() {

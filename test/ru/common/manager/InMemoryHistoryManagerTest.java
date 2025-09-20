@@ -8,6 +8,8 @@ import ru.common.interfaces.HistoryManager;
 import ru.common.interfaces.TaskManager;
 import ru.common.model.Task;
 
+import java.time.Duration;
+
 class InMemoryHistoryManagerTest {
     private InMemoryHistoryManager inMemoryHistoryManager;
 
@@ -21,8 +23,8 @@ class InMemoryHistoryManagerTest {
         HistoryManager historyManager = Managers.getDefaultHistory();
         TaskManager taskManager = Managers.getDefault();
 
-        Task task1 = new Task("task1", "description1", Status.NEW);
-        Task task2 = new Task("task1", "description1", Status.DONE);
+        Task task1 = new Task("task1", "description1", Status.NEW, Duration.ofMinutes(60), null);
+        Task task2 = new Task("task1", "description1", Status.DONE, Duration.ofMinutes(60), null);
 
         taskManager.createTask(task1);
         historyManager.add(taskManager.getTaskById(task1.getId()));
@@ -34,7 +36,7 @@ class InMemoryHistoryManagerTest {
 
     @Test
     public void shouldCorrectAddTaskInLinkedHashMap() {
-        Task task1 = new Task("task1", "description1", Status.NEW);
+        Task task1 = new Task("task1", "description1", Status.NEW, Duration.ofMinutes(60), null);
         task1.setId(1);
         inMemoryHistoryManager.add(task1);
 
@@ -49,7 +51,7 @@ class InMemoryHistoryManagerTest {
 
     @Test
     public void shouldCorrectDeleteToLinkedHashMap() {
-        Task task1 = new Task("task1", "description1", Status.NEW);
+        Task task1 = new Task("task1", "description1", Status.NEW, Duration.ofMinutes(60), null);
         task1.setId(1);
 
         inMemoryHistoryManager.add(task1);
@@ -65,7 +67,7 @@ class InMemoryHistoryManagerTest {
     public void shouldLinkLastCorrectWhenListEmptyAndNonEmpty() {
         InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
 
-        Task task1 = new Task("task1", "description1", Status.NEW);
+        Task task1 = new Task("task1", "description1", Status.NEW, Duration.ofMinutes(60), null);
         task1.setId(1);
 
         // Случай 1: добавление в пустой список
@@ -77,7 +79,7 @@ class InMemoryHistoryManagerTest {
         Assertions.assertNull(node1.next);
 
         // Случай 2: добавление в непустой список
-        Task task2 = new Task("task2", "description2", Status.DONE);
+        Task task2 = new Task("task2", "description2", Status.DONE, Duration.ofMinutes(60), null);
         task2.setId(2);
 
         InMemoryHistoryManager.Node node2 = historyManager.linkLast(task2);

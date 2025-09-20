@@ -9,17 +9,23 @@ import ru.common.model.Task;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FileBackedTaskManagerTest {
+class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
     private File tempFile;
     private FileBackedTaskManager manager;
 
-    @BeforeEach
-    void setup() throws IOException {
+    @Override
+    protected FileBackedTaskManager createTaskManager() throws IOException {
         tempFile = File.createTempFile("tasks", ".csv");
-        manager = new FileBackedTaskManager(tempFile.getAbsolutePath());
+        return new FileBackedTaskManager(tempFile.getAbsolutePath());
+    }
+
+    @BeforeEach
+    void initialization() throws IOException {
+        manager = createTaskManager();
     }
 
     @Test
@@ -35,7 +41,7 @@ class FileBackedTaskManagerTest {
 
     @Test
     void shouldSaveAndLoadSingleTask() {
-        Task task = new Task("task1", "desc1", Status.NEW);
+        Task task = new Task("task1", "desc1", Status.NEW, Duration.ofMinutes(60), null);
         int taskId = manager.createTask(task);
 
         FileBackedTaskManager loaded = Managers.loadFromFile(tempFile.getAbsolutePath());
@@ -50,7 +56,7 @@ class FileBackedTaskManagerTest {
         Epic epic = new Epic("epic1", "desc epic");
         int epicId = manager.createEpic(epic);
 
-        Subtask subtask = new Subtask("sub1", "desc sub", Status.IN_PROGRESS, epicId);
+        Subtask subtask = new Subtask("sub1", "desc sub", Status.IN_PROGRESS, epicId, Duration.ofMinutes(60), null);
         int subId = manager.createSubtask(subtask);
 
         FileBackedTaskManager loaded = Managers.loadFromFile(tempFile.getAbsolutePath());
@@ -68,8 +74,8 @@ class FileBackedTaskManagerTest {
 
     @Test
     void shouldSaveAndLoadSeveralTasks() {
-        manager.createTask(new Task("task1", "desc1", Status.NEW));
-        manager.createTask(new Task("task2", "desc2", Status.DONE));
+        manager.createTask(new Task("task1", "desc1", Status.NEW, Duration.ofMinutes(60), null));
+        manager.createTask(new Task("task2", "desc2", Status.DONE, Duration.ofMinutes(60), null));
 
         FileBackedTaskManager loaded = Managers.loadFromFile(tempFile.getAbsolutePath());
 

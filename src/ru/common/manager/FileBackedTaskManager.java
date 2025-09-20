@@ -11,6 +11,9 @@ import ru.common.model.Task;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
     private String url;
@@ -27,6 +30,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             }
 
             for (Epic epic : getEpics().values()) {
+                epic.updateTimes(getSubtasks());
                 fileWriter.write(toString(epic));
                 fileWriter.newLine();
             }
@@ -45,7 +49,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 + task.getTaskType() + ","
                 + task.getTitle() + ","
                 + task.getStatus()
-                + "," + task.getDescription();
+                + "," + task.getDescription()
+                + "," + (task.getDuration() != null ? task.getDuration().toMinutes() : 0)
+                + "," + (task.getStartTime() != null ? task.getStartTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) : "");
 
         if (task instanceof Subtask) {
             Subtask subtask = (Subtask) task;
@@ -64,9 +70,16 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         Status status = Status.valueOf(arrayStr[3]);
         String description = arrayStr[4];
 
+        Duration duration = Duration.ofMinutes(Long.parseLong(arrayStr[5]));
+
+        String startTimeStr = (arrayStr.length > 6) ? arrayStr[6] : null;
+        LocalDateTime startTime = (startTimeStr == null || startTimeStr.isEmpty())
+                ? null
+                : LocalDateTime.parse(startTimeStr, DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+
         switch (type) {
             case TASK:
-                Task task = new Task(title, description, status);
+                Task task = new Task(title, description, status, duration, startTime);
                 task.setId(id);
                 return task;
             case EPIC:
@@ -75,14 +88,18 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 epic.setStatus(status);
                 return epic;
             case SUBTASK:
-                int epicId = Integer.parseInt(arrayStr[5]);
-                Subtask subtask = new Subtask(title, description, status, epicId);
+                if (arrayStr.length <= 7) {
+                    throw new TaskTypeException("Недостаточно данных для подзадачи: отсутствует epicId");
+                }
+                int epicId = Integer.parseInt(arrayStr[7]);
+                Subtask subtask = new Subtask(title, description, status, epicId, duration, startTime);
                 subtask.setId(id);
                 return subtask;
             default:
                 throw new TaskTypeException("Неизвестный тип задачи");
         }
     }
+
 
     @Override
     public int createTask(Task task) {

@@ -7,6 +7,8 @@ import ru.common.enums.Status;
 import ru.common.interfaces.TaskManager;
 import ru.common.manager.Managers;
 
+import java.time.Duration;
+
 class EpicTest {
     private TaskManager taskManager;
 
@@ -34,8 +36,8 @@ class EpicTest {
 
         taskManager.createEpic(epic1);
 
-        Subtask subtask1 = new Subtask("subtask1", "description1", Status.NEW, epic1.getId());
-        Subtask subtask2 = new Subtask("subtask2", "description2", Status.DONE, epic1.getId());
+        Subtask subtask1 = new Subtask("subtask1", "description1", Status.NEW, epic1.getId(), Duration.ofMinutes(60), null);
+        Subtask subtask2 = new Subtask("subtask2", "description2", Status.DONE, epic1.getId(), Duration.ofMinutes(60), null);
 
         taskManager.createSubtask(subtask1);
         taskManager.createSubtask(subtask2);
@@ -54,8 +56,8 @@ class EpicTest {
 
         taskManager.createEpic(epic1);
 
-        Subtask subtask1 = new Subtask("subtask1", "description1", Status.NEW, epic1.getId());
-        Subtask subtask2 = new Subtask("subtask2", "description2", Status.DONE, epic1.getId());
+        Subtask subtask1 = new Subtask("subtask1", "description1", Status.NEW, epic1.getId(), Duration.ofMinutes(60), null);
+        Subtask subtask2 = new Subtask("subtask2", "description2", Status.DONE, epic1.getId(), Duration.ofMinutes(60), null);
 
         taskManager.createSubtask(subtask1);
         taskManager.createSubtask(subtask2);
