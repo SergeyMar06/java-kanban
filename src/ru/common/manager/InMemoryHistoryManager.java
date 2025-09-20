@@ -1,7 +1,6 @@
 package ru.common.manager;
 
 import ru.common.interfaces.HistoryManager;
-import ru.common.interfaces.TaskManager;
 import ru.common.model.Task;
 
 import java.util.ArrayList;

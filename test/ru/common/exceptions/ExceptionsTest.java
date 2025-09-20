@@ -1,4 +1,4 @@
-package ru.common;
+package ru.common.exceptions;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -6,7 +6,7 @@ import ru.common.errors.ManagerSaveException;
 import ru.common.manager.FileBackedTaskManager;
 
 import java.io.File;
-import java.io.IOException;
+
 
 public class ExceptionsTest {
     @Test
