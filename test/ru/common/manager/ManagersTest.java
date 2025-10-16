@@ -7,6 +7,7 @@ import ru.common.interfaces.HistoryManager;
 import ru.common.interfaces.TaskManager;
 import ru.common.model.Task;
 
+import java.time.Duration;
 import java.util.ArrayList;
 
 
@@ -26,7 +27,7 @@ class ManagersTest {
 
         Assertions.assertNotNull(historyManager);
 
-        Task task = new Task("task1", "description1", Status.NEW);
+        Task task = new Task("task1", "description1", Status.NEW, Duration.ofMinutes(60), null);
         task.setId(1);
 
         ArrayList<Task> history = historyManager.getHistory();
